@@ -1,0 +1,41 @@
+ping 192.168.1.200
+ssh ginger@192.168.1.200
+ginger
+
+cat /etc/hosts
+
+systemctl start ginger.service
+rosnode list
+systemctl stop ginger.service
+
+rostopic echo /XR1/Ultrasonic         ##check ultrasonic
+roslaunch rplidar_ros rplidar.launch  ##check radar
+
+rostopic echo /pixel_pose    #check robot position(x,y,yaw)
+
+rosservice call  /sca_version               ##SCA version
+rosservice call  iris_camera/system_version ##check supernode version
+rosservice call  /ecu_version               ##check ECU version
+cat /vendor/buildinfo.prop                  ##check CCU version
+
+adb conncect 10.18
+adb shell
+getprop ro.build.display.id                 ##check RCU version
+
+cat /ftm/unified_robot_id.json              ##check Robot ID
+
+rosrun camera_test aging_test   /XR1/BatteryInfo         ##check Battery
+rosrun camera_test aging_test /XR1/BatteryInfo standard
+rosrun camera_test aging_test /XR1/BatteryInfo post
+
+rosservice call /iris_camera/camera_parameters      #check 3D camera
+roslaunch ginger_navigation keyboard_teleop.launch  #manual move
+
+sudo reboot --force forced-recovery
+rostopic pub /motion_cmd ginger_msgs/ActionCommand "header:   #return to zero position
+
+rosrun camera_test camera_subscriber /camera0/usb_cam/image_raw bgr8  ####Front head camera
+
+rosrun camera_test camera_subscriber /camera2/usb_cam/image_raw bgr8  ###back head camera
+
+
