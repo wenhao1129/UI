@@ -1,2 +1,0 @@
-success: True
-message: "device:   1fd8c85c00389cc900000000\nfirmware: SN010101010120200910A010"
